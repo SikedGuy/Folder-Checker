@@ -1,0 +1,7 @@
+# ignore python building stuff
+__pycache__/
+
+# ignore PyInstaller stuff
+build
+dist
+*.spec
