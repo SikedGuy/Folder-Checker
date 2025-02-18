@@ -1,4 +1,4 @@
-from CheckerNoGUI import Checker
+from Checker import Checker
 import customtkinter as ctk
 import subprocess
 
@@ -16,7 +16,18 @@ class OpenFolderButton(ctk.CTkButton):
         # open target folder
         print(self.pathTofolder)
         subprocess.Popen(f"explorer /enter, {self.pathTofolder}")
+
+class FixFolderButton(ctk.CTkButton):
+    def __init__(self, master, onPress, pathTofolder, width = 140, height = 28, text = "CTkButton", **kwargs):
+        super().__init__(master, width, height, text=text, command=self.Click, **kwargs)
+        self.pathTofolder = pathTofolder
+        self.onPress = onPress
+
+    def Click(self):
+        Checker.Fix(self.pathTofolder)
+        self.onPress()
         pass
+
 
 class CheckerWithGUI(ctk.CTk):
     def __init__(self):
@@ -49,10 +60,10 @@ class CheckerWithGUI(ctk.CTk):
         self.usernameInput = ctk.CTkEntry(self.usernameFrame, placeholder_text="system username:")
         self.usernameInput.pack(padx = 5, pady = 5, fill = "both", expand = True)
 
-        self.startCheckingButton = ctk.CTkButton(self.rightFrame, text="Start Checking", command=self.OnStartChecking)
+        self.startCheckingButton = ctk.CTkButton(self.rightFrame, text="Start Checking", command=self.UpdateFileView)
         self.startCheckingButton.pack(padx = 5, pady = 5, fill = "x", side = "bottom")
 
-    def OnStartChecking(self) -> None:
+    def UpdateFileView(self) -> None:
         if (Checker.ValidUsername(self.usernameInput.get())):
             (fullpath, folders) = self.checker.StartSearch(self.usernameInput.get())
             if (folders.__len__() > 0):
@@ -61,20 +72,40 @@ class CheckerWithGUI(ctk.CTk):
                 self.DisplayFolders(fullpath, folders)
 
             else:
+                self.DestroyShownFolders()
                 self.problemsDetectedText.configure(text="no bad folders detected")
         else:
+            self.DestroyShownFolders()
             self.problemsDetectedText.configure(text="bad username input")
 
     def DisplayFolders(self, fullpath: str, folders: list[str]) -> None:
         self.DestroyShownFolders()
 
         for folder in folders:
-            f = ctk.CTkFrame(self.mainFrame, height=38)
-            t = ctk.CTkLabel(f, text=folder)
-            b = OpenFolderButton(f, f"{fullpath}\\{folder}", text="show in file explorer")
+            f = ctk.CTkFrame(self.mainFrame, height=38, border_width=2)
+
+            # configure 2x2 grid
+            f.grid_columnconfigure((0, 1), weight=1)
+            f.grid_rowconfigure((0, 1), weight=1)
+            
+            problemString = f"problem is [{Checker.GetProblemType(f"{fullpath}\\{folder}").name}]"
+
+            folderText = ctk.CTkLabel(f, text=folder, bg_color="grey")
+            problemText = ctk.CTkLabel(f, text=problemString, text_color="red")
+            openFolderButton = OpenFolderButton(f, f"{fullpath}\\{folder}", text="show in file explorer")
+            autoFixButton = FixFolderButton(f, self.UpdateFileView, f"{fullpath}\\{folder}", text="auto fix")
+
             f.pack(padx = 5, pady = 5, fill = "x")
-            b.pack(padx = 5, pady = 5, side = "right")
-            t.pack(padx = 5, pady = 5, fill = "both")
+
+            folderText.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+            problemText.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+            openFolderButton.grid(row=0, column=1, padx=5, pady=5, sticky="nse")
+            autoFixButton.grid(row=1, column=1, padx=5, pady=5, sticky="nse")
+
+            #openFolderButton.pack(padx = 5, pady = 5, side = "right")
+            #folderText.pack(padx = 5, pady = 5, fill = "both")
+            #autoFixButton.pack(padx = 5, pady = 5, side = "right")
+            #problemText.pack(padx = 5, pady = 5, fill = "both")
 
             self.displayedFolders.append(f)
 
@@ -83,11 +114,6 @@ class CheckerWithGUI(ctk.CTk):
             folder.destroy()
         
         self.displayedFolders.clear()
-
-    #def PackShownFolders(self) -> None:
-    #    for frame in self.displayedFolders:
-    #        frame.pack(padx = 5, pady = 5, fill = "both")
-
 
     def Run(self) -> None:
         self.mainloop()
