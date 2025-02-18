@@ -1,6 +1,6 @@
 {
     "name": "Folder Checker",
-    "version_number": "1.0.0",
+    "version_number": "1.1.0",
     "website_url": "https://github.com/SikedGuy/Folder-Checker",
     "description": "Helps you find mods that are not structured correctly",
     "dependencies": [
