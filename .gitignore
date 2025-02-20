@@ -7,4 +7,4 @@ dist
 *.spec
 
 # ignore all .exe files
-*.exe
+/*.exe
