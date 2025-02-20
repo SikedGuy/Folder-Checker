@@ -1,4 +1,4 @@
-Folder Checker
+Mod.io page: https://mod.io/g/bonelab/m/folder-checker
 
 About the Program
 
