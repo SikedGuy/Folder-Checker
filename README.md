@@ -32,4 +32,4 @@ Make sure you have the necessary permissions to access the mod directory.
 
 The program will scan the following path by default:
 
-C:\Users\USERNAME\AppData\LocalLow\Stress Level Zero\BONELAB
+C:\Users\USERNAME\AppData\LocalLow\Stress Level Zero\BONELAB/Mods
