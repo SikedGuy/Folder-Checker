@@ -57,20 +57,21 @@ class CheckerWithGUI(ctk.CTk):
         self.problemsDetectedText = ctk.CTkLabel(self.problemsDetectedFrame, text="Hello world")
         self.problemsDetectedText.pack(padx = 5, pady = 5, fill = "both", expand = True)
 
-        self.usernameInput = ctk.CTkEntry(self.usernameFrame, placeholder_text="system username:")
-        self.usernameInput.pack(padx = 5, pady = 5, fill = "both", expand = True)
+        self.usernameOrAbsPathInput = ctk.CTkEntry(self.usernameFrame, placeholder_text="system username or abslute path")
+        self.usernameOrAbsPathInput.pack(padx = 5, pady = 5, fill = "both", expand = True)
 
         self.startCheckingButton = ctk.CTkButton(self.rightFrame, text="Start Checking", command=self.UpdateFileView)
         self.startCheckingButton.pack(padx = 5, pady = 5, fill = "x", side = "bottom")
 
     def UpdateFileView(self) -> None:
-        if (Checker.ValidUsername(self.usernameInput.get())):
-            (fullpath, folders) = self.checker.StartSearch(self.usernameInput.get())
+        usernameOrAbsPath = self.usernameOrAbsPathInput.get()
+
+        if (Checker.ValidInput(usernameOrAbsPath)):
+            (fullpath, folders) = self.checker.StartSearch(usernameOrAbsPath, Checker.IsPathAbs(usernameOrAbsPath))
             if (folders.__len__() > 0):
                 self.problemsDetectedText.configure(text="bad folders detected")
 
                 self.DisplayFolders(fullpath, folders)
-
             else:
                 self.DestroyShownFolders()
                 self.problemsDetectedText.configure(text="no bad folders detected")
@@ -115,5 +116,5 @@ class CheckerWithGUI(ctk.CTk):
         
         self.displayedFolders.clear()
 
-    def Run(self) -> None:
+    def Start(self) -> None:
         self.mainloop()

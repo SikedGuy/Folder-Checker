@@ -7,4 +7,4 @@
 from CheckerGUI import CheckerWithGUI
 
 checker = CheckerWithGUI()
-checker.Run()
+checker.Start()

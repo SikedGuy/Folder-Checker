@@ -29,9 +29,12 @@ class Checker:
 
         return folders
 
-    def StartSearch(self, username: str) -> tuple[str, list[str]]:
-        directory = f"C:\\Users\\{username}\\AppData\\LocalLow\\Stress Level Zero\\BONELAB\\Mods"
-        return (directory, self.SearchDirectory(directory))
+    def StartSearch(self, s: str, isAbsPath: bool) -> tuple[str, list[str]]:
+        if (isAbsPath):
+            return (s, self.SearchDirectory(s))
+        else:
+            directory = f"C:\\Users\\{s}\\AppData\\LocalLow\\Stress Level Zero\\BONELAB\\Mods"
+            return (directory, self.SearchDirectory(directory))
 
     def StartSearchNoGUI(self):
         username = input("<enter your username>")
@@ -52,6 +55,12 @@ class Checker:
 
     def ValidUsername(username: str) -> bool:
         return os.path.exists(f"C:\\Users\\{username}\\AppData\\LocalLow\\Stress Level Zero\\BONELAB\\Mods")
+    
+    def IsPathAbs(path: str) -> bool:
+        return os.path.isabs(path)
+    
+    def ValidInput(s: str) -> bool:
+        return Checker.IsPathAbs(s) or Checker.ValidUsername(s)
     
     # assumes path actualy exists
     def GetProblemType(path: str) -> ProblemType:
