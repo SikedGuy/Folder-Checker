@@ -88,7 +88,7 @@ class Checker:
                 # delete folder
                 try:
                     shutil.rmtree(path)
-                    print("% s removed successfully" % path)
+                    print(f"{path} removed successfully")
                 except OSError as error:
                     print(error)
                     print("File path can not be removed")

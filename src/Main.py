@@ -1,5 +1,5 @@
 ## un-comment for CLI interface
-#from CheckerNoGUI import Checker
+#from Checker import Checker
 #checkerNoGUI = Checker()
 #checkerNoGUI.StartSearchNoGUI()
 #exit(0)
