@@ -28,7 +28,7 @@ GOTO:Main
 :Build
     echo Building exe.
     if %DEBUG% (
-        python -m PyInstaller --onefile --debug --distpath "." -n "Folder Checker" src/Main.py
+        python -m PyInstaller --onefile --distpath "." -n "Folder Checker" src/Main.py
     ) else (
         python -m PyInstaller --onefile --noconsole --distpath "." -n "Folder Checker" src/Main.py
     )
