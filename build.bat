@@ -3,7 +3,7 @@
 set true=1==1
 set false=1==0
 
-set DEBUG=% false %
+set DEBUG=%false%
 
 GOTO:Main
 
@@ -26,9 +26,9 @@ GOTO:Main
     EXIT /B 0
 
 :Build
-    echo Building exe
+    echo Building exe.
     if %DEBUG% (
-        python -m PyInstaller --onefile --distpath "." -n "Folder Checker" src/Main.py
+        python -m PyInstaller --onefile --debug --distpath "." -n "Folder Checker" src/Main.py
     ) else (
         python -m PyInstaller --onefile --noconsole --distpath "." -n "Folder Checker" src/Main.py
     )
