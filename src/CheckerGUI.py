@@ -9,7 +9,6 @@ ctk.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 ctk.set_widget_scaling(1.5)
 
-
 class OpenFolderButton(ctk.CTkButton):
     def __init__(self, master, pathTofolder, width = 140, height = 28, text = "CTkButton", **kwargs):
         super().__init__(master, width, height, text=text, command=self.Click, **kwargs)
