@@ -1,6 +1,9 @@
 from Checker import Checker
+from PIL import Image, ImageTk
 import customtkinter as ctk
 import subprocess
+
+import LowQualityLogo_png
 
 ctk.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -39,6 +42,9 @@ class CheckerWithGUI(ctk.CTk):
         # create window
         self.title("Folder Checker")
         self.geometry(f"{1560}x{840}")
+
+        self.logoImage = Image.frombytes(LowQualityLogo_png.mode, LowQualityLogo_png.size, LowQualityLogo_png.bytesDef)
+        self.after(300, lambda: self.iconphoto(False, ImageTk.PhotoImage(self.logoImage)))
 
         # start frames
         self.rightFrame = ctk.CTkFrame(self, 300) # dont know what to use for yet. maybe logging
